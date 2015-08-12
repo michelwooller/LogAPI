@@ -1,0 +1,15 @@
+[
+    {
+    	"name" : "test/Log1",
+		"type" : "Console",
+		"level" : "warn",
+		"config" : null
+    },
+    {
+    	"name" : "test/Log2",
+		"type" : "Console",
+		"level" : "trace",
+		"config" : null
+    }
+	
+]
