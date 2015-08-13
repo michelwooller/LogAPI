@@ -11,6 +11,8 @@ If you a interested on add your code to mine, please let me know:
 - Config template (did)
 - Record (did)
 - Level (did)
+- Print pattern (did)
+- Recursive matchs between logger name and appender name (did)
 - Write records like a queue (did)
 - Console Appender (did)
 - Custom print layout (to do)
