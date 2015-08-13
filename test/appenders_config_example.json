@@ -1,15 +1,21 @@
 [
     {
-    	"name" : "test/Log1",
-		"type" : "Console",
-		"level" : "warn",
-		"config" : null
+        "config": {},
+        "level": "info",
+        "loggers": [
+            "test.exec1",
+            "test.exec2"
+        ],
+        "name": "console appender 1",
+        "type": "Console"
     },
     {
-    	"name" : "test/Log2",
-		"type" : "Console",
-		"level" : "trace",
-		"config" : null
+        "config": {},
+        "level": "info",
+        "loggers": [
+            "test.exec1"
+        ],
+        "name": "console appender 2",
+        "type": "Console"
     }
-	
 ]
