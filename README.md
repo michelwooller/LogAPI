@@ -9,9 +9,11 @@ other ways: http://team.berrycode.com.br
 - Record (did)
 - Level (did)
 - Write records like a queue (did)
-- Console Appender (to do)
-- File Appender (to do)
-- Rolling File Appender (to do)
-- ProxyAppender (to do)
-- MongoDCAppender (to do)
+- Console Appender (did)
+
+* Custom print layout (to do)
+* File Appender (to do)
+* Rolling File Appender (to do)
+* ProxyAppender (to do)
+* MongoDBAppender (to do)
 
