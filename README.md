@@ -1,5 +1,5 @@
 # LogAPI
-The main objective is do a enterprise level log API to NodeJS.
+The main objective is do a enterprise log API to NodeJS.
 If you a interested on add your code to my, please contact me 
 
 e-mail: michellucascorrea@gmail.com
