@@ -6,7 +6,7 @@ If you a interested on add your code to mine, please let me know:
 - other ways: http://team.berrycode.com.br
 
 ### npm install
-npm install LogAPI
+npm install log-api
 
 
 ### Realized wishes
