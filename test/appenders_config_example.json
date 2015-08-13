@@ -1,19 +1,10 @@
 [
     {
-        "config": {},
-        "level": "info",
+        "config": {}, 
+        "level": "trace",
+		"pattern" : "[{w} {y}/{M}/{d} {h}:{m}:{s}.{ms}] [{lvl}] [{lg}] {out}",
         "loggers": [
-            "test.exec1",
-            "test.exec2"
-        ],
-        "name": "console appender 1",
-        "type": "Console"
-    },
-    {
-        "config": {},
-        "level": "info",
-        "loggers": [
-            "test.exec1"
+            "test.logger"
         ],
         "name": "console appender 2",
         "type": "Console"

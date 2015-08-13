@@ -1,16 +1,10 @@
-module.exports = function(name, config) {
+module.exports = function(name, print_pattern, config) {
 	var config = config;
 	this.name = name;
-
-	var level_names = new Array("TRACE", "LOG", "INFO", "WARN", "ERROR");
+	var print_pattern = print_pattern;
 
 	this.write = function(record) {
-		if (record.isError) {
-			console.log(record.time + " [" + level_names[record.level - 1] + "] [" + record.logger + "] >> ");
-			console.log(record.message.stack.split("\n"));
-		} else {
-			console.log(record.time + " [" + level_names[record.level - 1] + "] [" + record.logger + "] >> " + record.message);
-		}
+		console.log(print_pattern.parse(record));
 	};
 
 	return this;

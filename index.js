@@ -1,13 +1,14 @@
 var Logger = require("./Logger.js");
 var Level = require("./Level.js");
+var PrintPattern = require("./PrintPattern.js");
 
 module.exports = (function() {
 	/* STATE VARIABLES */
-	
+
 	// OUT configuration
 	var OUT_INTERVAL = 1000; // 1sec
-	var OUT_SIZE = 2;
-	
+	var OUT_SIZE = 1000;
+
 	// logger objects
 	var loggers = {};
 
@@ -38,11 +39,13 @@ module.exports = (function() {
 	// create the appender objects
 	// the appender_config should be something like
 	// [{ 
-	// 		"name": "appender name",            --
-	//		"type": "appender implementation",  --
-	//		"level": "level that appender listens", --  
-	//		"loggers": ["logger1", "logger2", "group.logger3"], --
-	//		"config": {...[appender exclusive configuration]} --
+	// 		"name": "appender name",            
+	//		"type": "appender implementation",  
+	//		"level": "level that appender listens", 
+	//		"loggers": ["logger1", "logger2", "group.logger3"], 
+	// Follows the optional attributes --------------------------------------------------	
+	//		"print_pattern": "[{y}/{M}/{d} {w} {h}:{m}:{s}.{ms}] [{lvl}] [{lg}] {out}",
+	//		"config": {...[appender exclusive configuration]} 
 	// }, ...]
 	var loadAppenderConfig = function(appender_configs) {
 		for (var i in appender_configs) {
@@ -51,8 +54,9 @@ module.exports = (function() {
 
 			// create appender object
 			var AppenderType = require("./appender/" + appender_config.type + "Appender.js");
-			var appender_object = new AppenderType(appender_config.name, appender_config.config);
-			
+			var appender_object = new AppenderType(appender_config.name,
+				new PrintPattern(appender_config.print_pattern), appender_config.config);
+
 			for (var l in appender_config.loggers) {
 				var listened_logger = appender_config.loggers[l];
 
@@ -66,28 +70,40 @@ module.exports = (function() {
 	}
 
 	setInterval(function() {
-		for(var i = 0; i < OUT_SIZE ; i++){
+		for (var i = 0; i < OUT_SIZE; i++) {
 			// getting message record
 			var record = records[i];
-			
+
 			// stop the loop when ther record list is empty;
-			if(record == undefined){
+			if (record == undefined) {
 				break;
 			}
-			
+
 			// the record should be logged on all appender that listen the same level or the appenders that listen lower levels
-			for(var level = record.level; level >= 1; level--){
-			// getting appender list by level
+			for (var level = record.level; level >= 1; level--) {
+				// getting appender list by level
 				var level_appenders = appenders[level];
 
-				// getting appender list by logger	
-				var logger_appenders = level_appenders[record.logger];
-				
-				// using appender
-				if(logger_appenders != undefined){
-					for(a in logger_appenders){
-						var appender = logger_appenders[a];
-						appender.write(record);
+				// try to catch all appenders as possible 
+				var logger_composition = record.logger.split(".");
+				var logger_name = undefined;
+				for (var lc = 0; lc < logger_composition.length; lc++) {
+					// logger name rebuild process
+					if (logger_name == undefined) {
+						logger_name = logger_composition[lc];
+					} else {
+						logger_name = logger_name + "." + logger_composition[lc];
+					}
+
+					// getting appender list by logger	
+					var logger_appenders = level_appenders[logger_name];
+
+					// using appender
+					if (logger_appenders != undefined) {
+						for (a in logger_appenders) {
+							var appender = logger_appenders[a];
+							appender.write(record);
+						}
 					}
 				}
 			}
@@ -97,8 +113,6 @@ module.exports = (function() {
 
 	return {
 		"createLogger": createLogger,
-		"records": records,
-		"loadAppenderConfig": loadAppenderConfig,
-		"appenders": appenders
+		"loadAppenderConfig": loadAppenderConfig
 	}
 })();
