@@ -7,6 +7,8 @@ other ways: http://team.berrycode.com.br
 
 ## Wish list
 - Better code comments (doing)
+- More tests (doing)
+- Config template (did)
 - Record (did)
 - Level (did)
 - Write records like a queue (did)
