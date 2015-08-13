@@ -1,4 +1,7 @@
 {
     "main": "index.js",
-    "name": "LogAPI"
+    "name": "LogAPI",
+	"version": "0",
+	"engines": "0.12.7",
+	"author": "Michel Lucas Correa <michellucascorrea@gmail.com>"
 }
