@@ -2,6 +2,6 @@
     "author": "Michel Lucas Correa <michellucascorrea@gmail.com>",
     "engines": "0.12.7",
     "main": "index.js",
-    "name": "LogAPI",
-    "version": "0"
+    "name": "log-api",
+    "version": "0.0.1"
 }

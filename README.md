@@ -5,7 +5,11 @@ If you a interested on add your code to mine, please let me know:
 - e-mail: michellucascorrea@gmail.com
 - other ways: http://team.berrycode.com.br
 
-## Realized wishes
+### npm install
+npm install LogAPI
+
+
+### Realized wishes
 - Config template (did)
 - Record (did)
 - Level (did)
@@ -14,7 +18,7 @@ If you a interested on add your code to mine, please let me know:
 - Write records like a queue (did)
 - Console Appender (did)
 
-## Wish list
+### Wish list
 - Better code comments (doing)
 - More tests (doing)
 - Custom print layout (to do)
