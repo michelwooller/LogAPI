@@ -11,6 +11,7 @@ module.exports = function(name, records){
 	}
 
 	this.log = function(msg){
+		records.push(new Record(name, Level.log, msg));
 	}
 
 	this.info = function(msg){

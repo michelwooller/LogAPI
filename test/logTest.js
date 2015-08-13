@@ -31,3 +31,11 @@ setTimeout(function(){
 	}, 1000);
 }, 1000);
 
+
+try{
+	throw new Error("[2] it's a catched error");
+}catch(e){
+	logger2.error(e);
+}
+
+logger2.error(new Error("[2] it's a common error "));

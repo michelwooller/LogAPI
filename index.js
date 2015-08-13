@@ -93,7 +93,7 @@ module.exports = (function() {
 			}
 		}
 		records.splice(0, OUT_SIZE);
-	}, 1000);
+	}, OUT_INTERVAL);
 
 	return {
 		"createLogger": createLogger,
