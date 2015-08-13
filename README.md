@@ -6,14 +6,14 @@ e-mail: michellucascorrea@gmail.com
 other ways: http://team.berrycode.com.br
 
 ## Wish list
+- Better code comments (doing)
 - Record (did)
 - Level (did)
 - Write records like a queue (did)
 - Console Appender (did)
-
-* Custom print layout (to do)
-* File Appender (to do)
-* Rolling File Appender (to do)
-* ProxyAppender (to do)
-* MongoDBAppender (to do)
+- Custom print layout (to do)
+- File Appender (to do)
+- Rolling File Appender (to do)
+- ProxyAppender (to do)
+- MongoDBAppender (to do)
 
