@@ -3,6 +3,7 @@ The main objective is do a enterprise log API to NodeJS.
 If you a interested on add your code to mine, please contact me 
 
 e-mail: michellucascorrea@gmail.com
+
 other ways: http://team.berrycode.com.br
 
 ## Wish list
