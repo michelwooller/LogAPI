@@ -70,7 +70,7 @@ logger.log("logging message");
 logger.trace("tracing message");
 
 
-#### Change log
+#### Changelog
 CURRENT VERSION: 0.0.3 [BETA]
 STABLE VERSION:
 
