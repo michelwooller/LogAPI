@@ -1,5 +1,11 @@
 var file_system = require("fs");
 
+// config example
+/*
+{
+	
+}
+*/
 module.exports = function(name, print_pattern, config) {
 
 	// variables

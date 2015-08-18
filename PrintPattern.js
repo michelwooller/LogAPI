@@ -31,7 +31,7 @@ module.exports = function(format) {
 		out = out.replace(patterns.hours, ("0" + record.time.getHours()).slice(-2));
 		out = out.replace(patterns.minutes, ("0" + record.time.getMinutes()).slice(-2));
 		out = out.replace(patterns.seconds, ("0" + record.time.getSeconds()).slice(-2));
-		out = out.replace(patterns.milliseconds, record.time.getMilliseconds());
+		out = out.replace(patterns.milliseconds, (record.time.getMilliseconds() + "000").slice(0,3));
 		out = out.replace(patterns.level, level_names[record.level - 1]);
 		out = out.replace(patterns.logger, record.logger);
 		if (record.isError) {

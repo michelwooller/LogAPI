@@ -86,7 +86,7 @@ assert((seconds == pattern.parse(record)), "should be write '" + seconds + "'");
 pattern = new PrintPattern("{ms}");
 now = new Date();
 record = new Record("print.pattern.test", Level.trace, "message");
-assert(/[0-9]{3}/.test(pattern.parse(record)) && pattern.parse(record).length == 3, "should be write 3 digits");
+assert(/[0-9]{3}/.test((pattern.parse(record) + "000").slice(0,3)) && pattern.parse(record).length == 3, "should be write 3 digits ");
 
 // many repeated output test
 pattern = new PrintPattern("{out} - {out}");

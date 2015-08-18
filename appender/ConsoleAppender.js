@@ -1,3 +1,7 @@
+// config example
+/*
+	none
+*/
 module.exports = function(name, print_pattern, config) {
 	// no custom config
 	var config = config;
