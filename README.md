@@ -17,11 +17,12 @@ npm install log-api
 - Recursive matchs between logger name and appender name (did)
 - Write records like a queue (did)
 - Console Appender (did)
+- [Bug] Release app after last record (did)
+- Custom print layout (did)
 
 ### Wish list
 - Better code comments (doing)
 - More tests (doing)
-- Custom print layout (to do)
 - File Appender (to do)
 - Rolling File Appender (to do)
 - ProxyAppender (to do)

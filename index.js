@@ -6,7 +6,8 @@ module.exports = (function() {
 	/* STATE VARIABLES */
 
 	// OUT configuration
-	var OUT_INTERVAL = 1000; // 1sec
+	var OUT_INTERVAL = undefined; // 1sec
+	var OUT_INTERVAL_TIMEOUT = 1000; // 1sec
 	var OUT_SIZE = 1000;
 
 	// logger objects
@@ -30,7 +31,10 @@ module.exports = (function() {
 	// logger_name should be something like group.subgroup.name
 	var createLogger = function(logger_name) {
 		if (loggers[logger_name] == undefined) {
-			loggers[logger_name] = new Logger(logger_name, records);
+			loggers[logger_name] = new Logger(logger_name, function(record) {
+				records.push(record);
+				writeLog();
+			});
 		}
 
 		return loggers[logger_name];
@@ -48,6 +52,7 @@ module.exports = (function() {
 	//		"config": {...[appender exclusive configuration]} 
 	// }, ...]
 	var loadAppenderConfig = function(appender_configs) {
+		realeaseAppenders();
 		for (var i in appender_configs) {
 			// get an appender config
 			var appender_config = appender_configs[i];
@@ -69,7 +74,35 @@ module.exports = (function() {
 		}
 	}
 
-	setInterval(function() {
+	// realease appenders internal resources;
+	var realeaseAppenders = function() {
+		for (lv in appenders) {
+			var level_appender = appenders[lv];
+
+			for (lg in level_appender) {
+				var logger_appender = level_appender[lg];
+
+				if (logger_appender.length > 0) {
+					for (i in logger_appender) {
+						var appender = logger_appender[i];
+						appender.release();
+					}
+				}
+
+				delete level_appender[lg];
+			}
+		}
+	};
+
+	// Wrapper that decides when the app will log without hold the process
+	var writeLog = function() {
+		if (OUT_INTERVAL == undefined) {
+			OUT_INTERVAL = setTimeout(writeLogImpl, OUT_INTERVAL_TIMEOUT);
+		}
+	};
+
+	// real log process
+	var writeLogImpl = function() {
 		for (var i = 0; i < OUT_SIZE; i++) {
 			// getting message record
 			var record = records[i];
@@ -109,8 +142,16 @@ module.exports = (function() {
 			}
 		}
 		records.splice(0, OUT_SIZE);
-	}, OUT_INTERVAL);
 
+		// clean interval identifier
+		OUT_INTERVAL = undefined;
+		// if still remain any record, start again the log process
+		if (records.length > 0) {
+			writeLog();
+		}
+	};
+
+	// public interface
 	return {
 		"createLogger": createLogger,
 		"loadAppenderConfig": loadAppenderConfig
