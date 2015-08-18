@@ -5,11 +5,10 @@ If you a interested on add your code to mine, please let me know:
 - e-mail: michellucascorrea@gmail.com
 - other ways: http://team.berrycode.com.br
 
-### npm install
+#### npm install
 npm install log-api
 
-
-### Realized wishes
+#### Realized wishes
 - Config template (did)
 - Record (did)
 - Level (did)
@@ -17,14 +16,59 @@ npm install log-api
 - Recursive matchs between logger name and appender name (did)
 - Write records like a queue (did)
 - Console Appender (did)
-- [Bug] Release app after last record (did)
+- Release app after last record (did)
 - Custom print layout (did)
+- Better tests (did)
+- Better code comments (did)
 
-### Wish list
-- Better code comments (doing)
+#### Wish list
 - More tests (doing)
-- File Appender (to do)
-- Rolling File Appender (to do)
+- FileAppender with rolling options (doing)
 - ProxyAppender (to do)
 - MongoDBAppender (to do)
 
+#### How to use
+###### Install LogAPI
+npm install log-api
+
+###### Import the LogAPI
+var LogAPI = require("log-api"); 
+
+###### Make a config  JSON object
+var logger_configuration = [{
+    {
+        "name": "console appender example",
+        "level": "trace", // trace, log, info, warn, error
+        "pattern" : "[{w} {y}/{M}/{d} {h}:{m}:{s}.{ms}] [{lvl}] [{lg}] {out}",
+        "loggers": [ // appender will listen this logger list
+            "test.logger"
+        ],
+        "type": "Console", // Console, File
+        "config": { <appender extra configuration> } 
+    },
+	<more appender configurations>
+	...
+}]
+
+###### Load the configuration and create the logger object
+LogAPI.loadAppenderConfig(logger_configuration);
+
+var logger = LogAPI.createLogger("test.logger.internal.filename");
+
+###### Use it a lot!!!
+logger.error(new Error("error message"));
+// --
+try{
+	throw new Error("exception message");
+}catch(e){
+	logger.error(e);
+}
+// --
+logger.warn("warning message");
+logger.info("information message");
+logger.log("logging message");
+logger.trace("tracing message");
+
+
+
+ 

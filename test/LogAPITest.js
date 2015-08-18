@@ -2,7 +2,6 @@ var logAPI = require("../index.js");
 var appenders_config = require("./appenders_config_example.json");
 
 logAPI.loadAppenderConfig(appenders_config);
-logAPI.loadAppenderConfig(appenders_config);
 
 var logger = logAPI.createLogger("test.logger.mine");
 

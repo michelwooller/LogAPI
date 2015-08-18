@@ -7,6 +7,7 @@ module.exports = function(logger, level, message) {
 		return new Error("logger cannot be empty");
 	}
 
+	// Record data format
 	return {
 		"time": new Date(),
 		"logger": logger,

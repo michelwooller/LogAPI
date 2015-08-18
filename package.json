@@ -3,5 +3,5 @@
     "engines": "0.12.7",
     "main": "index.js",
     "name": "log-api",
-    "version": "0.0.1"
+    "version": "0.0.3"
 }
