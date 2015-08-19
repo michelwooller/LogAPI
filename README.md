@@ -72,11 +72,12 @@ logger.trace("tracing message");
 
 #### Changelog
 CURRENT VERSION: 0.0.3 [BETA]
+
 STABLE VERSION:
 
-0.0.1: core and console appender coded
-0.0.2: core code become stable, added good tests
-0.0.3: added more good test
+- 0.0.1: core and console appender coded
+- 0.0.2: core code become stable, added good tests
+- 0.0.3: added more good test
  
 
 
