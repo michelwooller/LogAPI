@@ -29,12 +29,15 @@ npm install log-api
 
 #### How to use
 ###### Install LogAPI
+```javascript
 npm install log-api
-
+````
 ###### Import the LogAPI
+```javascript
 var LogAPI = require("log-api"); 
-
+````
 ###### Make a config  JSON object
+```javascript
 var logger_configuration = [{
     {
         "name": "console appender example",
@@ -49,13 +52,15 @@ var logger_configuration = [{
 	<more appender configurations>
 	...
 }]
-
+```
 ###### Load the configuration and create the logger object
+```javascript
 LogAPI.loadAppenderConfig(logger_configuration);
 
 var logger = LogAPI.createLogger("test.logger.internal.filename");
-
+````
 ###### Use it a lot!!!
+```javascript
 logger.error(new Error("error message"));
 // --
 try{
@@ -68,8 +73,7 @@ logger.warn("warning message");
 logger.info("information message");
 logger.log("logging message");
 logger.trace("tracing message");
-
-
+```
 #### Changelog
 CURRENT VERSION: 0.0.3 [BETA]
 
