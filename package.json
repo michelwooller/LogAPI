@@ -1,7 +1,29 @@
 {
-    "author": "Michel Lucas Correa <michellucascorrea@gmail.com>",
-    "engines": "0.12.7",
-    "main": "index.js",
-    "name": "log-api",
-    "version": "0.0.3"
+  "name": "log-api",
+  "version": "0.0.3",
+  "description": "enterprise level log api",
+  "main": "index.js",
+  "engines": "0.12.7",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node text/<File>Test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/michelwooller/LogAPI.git"
+  },
+  "keywords": [
+    "log",
+    "manager",
+    "file",
+    "console"
+  ],
+  "author": "Michel Lucas Correa <michellucascorrea@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/michelwooller/LogAPI/issues"
+  },
+  "homepage": "https://github.com/michelwooller/LogAPI#readme"
 }
