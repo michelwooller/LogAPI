@@ -1,9 +1,14 @@
-{
+var a = {
     'author' : {
         'name' : 'Michel Lucas Correa',
         'email' : 'michellucascorrea@gmail.com',
         'url' : 'http://team.berrycode.com.br'
     },
+    'contributors' : [ {
+        'name' : 'Gilberto Volpe Neto',
+        'email' : 'gilberto.vollpe@gmail.com',
+        'url' : 'https://br.linkedin.com/pub/gilberto-volpe/7b/96a/b91'
+    } ],
     'bugs' : {
 	    'url' : 'https://github.com/michelwooller/LogAPI/issues'
     },
