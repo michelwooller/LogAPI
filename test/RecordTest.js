@@ -1,3 +1,4 @@
+/*
 var Record = require("../Record.js");
 var print = console.log;
 var assert = console.assert;
@@ -19,3 +20,4 @@ assert(record instanceof Error, "should not be possible create a record with emp
 
 print("Record is ok");
 print("------------------------------------------------------------------------");
+*/

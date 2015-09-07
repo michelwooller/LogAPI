@@ -1,3 +1,4 @@
+/*
 var ConsoleAppender = require("../appender/ConsoleAppender.js");
 var PrintPattern = require("../PrintPattern.js");
 var Level = require("../Level.js");

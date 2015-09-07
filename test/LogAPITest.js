@@ -1,3 +1,4 @@
+/*
 var logAPI = require("../index.js");
 var appenders_config = require("./appenders_config_example.json");
 
@@ -22,3 +23,4 @@ setTimeout(function(){
 	logger.error("last Log");	
 }, 5000); 
 
+*/

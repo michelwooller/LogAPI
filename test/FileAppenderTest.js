@@ -1,69 +1,150 @@
-var FileAppender = require("../appender/FileAppender.js");
-var PrintPattern = require("../PrintPattern.js");
-var Record = require("../Record.js");
-var Level = require("../Level.js");
-var FileSystem = require("fs");
+'use strict';
+var FileAppender = require('../appender/FileAppender.js');
+var PrintPattern = require('../PrintPattern.js');
+var Record = require('../Record.js');
+var Level = require('../Level.js');
+var FileSystem = require('fs');
 var Path = require('path');
 
-var print = console.log;
-var assert = console.assert;
+var test = require('unit.js');
+var should = test.should;
 
-print("\n########################################################################");
-print(" LOG-API: logger tests");
-print("########################################################################\n\n");
+var record = new Record('test.logger', Level.trace, 'mensagem'), print_pattern = new PrintPattern('{out}');
 
-var print_pattern = new PrintPattern("{out}"),
-file = null,
-config = {
-	"file": {
-		"path": "test/logs",
-		"name": "out.log"
-	},
-	"rotation" : {
-		"size" : 100, // kib mib gib, k, m, g (max file size - default bytes)
-		"time" : 60, // m, h, d (max file duration - default seconds)		
-	}
-};
-
-var file_abs_path = Path.normalize(Path.join(config.file.path, config.file.name));
-
-function removeFile(full_path){
-	if (FileSystem.existsSync(full_path)) {
-		FileSystem.unlinkSync(full_path);
-	}
-}
-
-function writeLog(msg){
-	var record = new Record("test.logger", Level.trace, msg);
-	var file_appender = new FileAppender("FileAppenderName", print_pattern, config);
-	file_appender.write(record);	
-}
-
-/* validate the file content */
-removeFile(file_abs_path);
-writeLog("message");
-
-FileSystem.readFile(file_abs_path, "utf8", function(e, data) {
-	if (e) {
-		throw e;
-	} else {
-		assert("message" === data.trim(), "should be traced 'message'");
-	}
+describe('Suite de testes do FileAppender.', function() {
+	describe('Testes construção.', function() {
+		describe('Dado uma instância do FileAppender', function() {
+			describe('quando criada de forma simples', function() {
+				var file_appender = new FileAppender('SimpleFileAppender', print_pattern, {
+					'file' : {
+					    'path' : 'test/logs',
+					    'name' : 'out.log'
+					}
+				});
+				it('então deve conter a interface básica exigida para ser uma Appender.', function() {
+					should(file_appender.name).be.equal('SimpleFileAppender');
+					should(file_appender.write).be.type('function');
+					should(file_appender.writeSync).be.type('function');
+				});
+			});
+			describe('quando criada sem configurações de rotação', function() {
+				var file_appender = new FileAppender('SimpleFileAppender', print_pattern, {
+					'file' : {
+					    'path' : 'test/logs',
+					    'name' : 'out.log'
+					}
+				});
+				it('então deve ter a rotação desabilitada.', function() {
+					should(file_appender.rotation_enabled).be.equal(false);
+					should(file_appender.rotation_size).be.type('undefined');
+					should(file_appender.writerotation_time).be.type('undefined');
+				});
+			});
+			describe('quando criada cem configurações de rotação', function() {
+				var file_appender = new FileAppender('SimpleFileAppender', print_pattern, {
+				    'file' : {
+				        'path' : 'test/logs',
+				        'name' : 'out.log'
+				    },
+				    'rotation' : {
+				        'size' : 1,
+				        'time' : 1
+				    }
+				});
+				it('então deve ter a rotação habilitada', function() {
+					should(file_appender.rotation_enabled).be.equal(true);
+				});
+				it('e também deve expor os valores de rotação de arquivo por ser um FileAppender.', function() {
+					should(file_appender.rotation_size).be.type('number');
+					should(file_appender.rotation_time).be.type('number');
+				});
+			});
+			describe('quando para a rotação por tamanho, for informado um número (bytes), kib, mib, gib, k, m ou g', function() {
+				var config = {
+				    'file' : {
+				        'path' : 'test/logs',
+				        'name' : 'out.log'
+				    },
+				    'rotation' : {
+					    'size' : '1'
+				    }
+				};
+				var file_appender;
+				it('então o FileAppender deve expor o mesmo número proporcional a sigla indicada (múltiplos de 1024).', function() {
+					config.rotation.size = '1';
+					file_appender = new FileAppender('SimpleFileAppender', print_pattern, config);
+					should(file_appender.rotation_size).be.equal(1);
+					
+					config.rotation.size = '1kib';
+					file_appender = new FileAppender('SimpleFileAppender', print_pattern, config);
+					should(file_appender.rotation_size).be.equal(1 * 1024);
+					
+					config.rotation.size = '1mib';
+					file_appender = new FileAppender('SimpleFileAppender', print_pattern, config);
+					should(file_appender.rotation_size).be.equal(1 * 1024 * 1024);
+					
+					config.rotation.size = '1gib';
+					file_appender = new FileAppender('SimpleFileAppender', print_pattern, config);
+					should(file_appender.rotation_size).be.equal(1 * 1024 * 1024 * 1024);
+					
+					config.rotation.size = '1k';
+					file_appender = new FileAppender('SimpleFileAppender', print_pattern, config);
+					should(file_appender.rotation_size).be.equal(1 * 1000);
+					
+					config.rotation.size = '1m';
+					file_appender = new FileAppender('SimpleFileAppender', print_pattern, config);
+					should(file_appender.rotation_size).be.equal(1 * 1000 * 1000);
+					
+					config.rotation.size = '1g';
+					file_appender = new FileAppender('SimpleFileAppender', print_pattern, config);
+					should(file_appender.rotation_size).be.equal(1 * 1000 * 1000 * 1000);
+				});
+			});
+			describe('quando para a rotação por tempo, for informado um número (segundos), m, h ou d', function() {
+				var config = {
+				    'file' : {
+				        'path' : 'test/logs',
+				        'name' : 'out.log'
+				    },
+				    'rotation' : {
+					    'time' : '1'
+				    }
+				};
+				var file_appender;
+				it('então o FileAppender deve expor o mesmo número proporcional a sigla indicada (múltiplos de tempo).', function() {
+					config.rotation.time = '1';
+					file_appender = new FileAppender('SimpleFileAppender', print_pattern, config);
+					should(file_appender.rotation_time).be.equal(1);
+					
+					config.rotation.time = '1m';
+					file_appender = new FileAppender('SimpleFileAppender', print_pattern, config);
+					should(file_appender.rotation_time).be.equal(1 * 60);
+					
+					config.rotation.time = '1h';
+					file_appender = new FileAppender('SimpleFileAppender', print_pattern, config);
+					should(file_appender.rotation_time).be.equal(1 * 60 * 60);
+					
+					config.rotation.time = '1d';
+					file_appender = new FileAppender('SimpleFileAppender', print_pattern, config);
+					should(file_appender.rotation_time).be.equal(1 * 60 * 60 * 24);
+					
+				});
+			});
+			describe('quando logado um record', function() {
+				var config = {
+				    'file' : {
+				        'path' : 'test/logs',
+				        'name' : 'out.log'
+				    }
+				};
+				var file_appender = new FileAppender('SimpleFileAppender', print_pattern, config);
+				file_appender.write(record);
+				
+				it('então a mensagem do record tem que ser adicionado ao arquivo de acordo com a configuração.', function() {
+					var data = FileSystem.readFileSync(config.file.path + '/'+ config.file.name);
+					console.log(data.toString());
+				});
+			});
+		});
+	});
 });
-
-writeLog("message");
-
-FileSystem.readFile(file_abs_path, "utf8", function(e, data) {
-	if (e) {
-		throw e;
-	} else {
-		assert("message\nmessage" === data.trim(), "should be traced 'message'");
-	}
-});
-
-/* checks the file rotaion */
-
-
-
-print("FileAppender is ok");
-print("------------------------------------------------------------------------");

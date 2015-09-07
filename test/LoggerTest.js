@@ -1,3 +1,4 @@
+/*
 var Logger = require("../Logger.js");
 var Level = require("../Level.js");
 
@@ -38,3 +39,4 @@ for (i in records) {
 
 print("Logger is ok");
 print("------------------------------------------------------------------------");
+*/

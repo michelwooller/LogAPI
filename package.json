@@ -1,29 +1,32 @@
 {
-  "name": "log-api",
-  "version": "0.0.3",
-  "description": "enterprise level log api",
-  "main": "index.js",
-  "engines": "0.12.7",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "test": "node text/<File>Test.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/michelwooller/LogAPI.git"
-  },
-  "keywords": [
-    "log",
-    "manager",
-    "file",
-    "console"
-  ],
-  "author": "Michel Lucas Correa <michellucascorrea@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/michelwooller/LogAPI/issues"
-  },
-  "homepage": "https://github.com/michelwooller/LogAPI#readme"
+    'author' : {
+        'name' : 'Michel Lucas Correa',
+        'email' : 'michellucascorrea@gmail.com',
+        'url' : 'http://team.berrycode.com.br'
+    },
+    'bugs' : {
+	    'url' : 'https://github.com/michelwooller/LogAPI/issues'
+    },
+    'description' : 'Enterprise-class log API. Built for professional use',
+    'directories' : {
+	    'test' : 'test'
+    },
+    'engines' : '0.12.7',
+    'homepage' : 'https://github.com/michelwooller/LogAPI#readme',
+    'keywords' : [ 'log', 'manager', 'file', 'console' ],
+    'license' : 'MIT',
+    'main' : 'index.js',
+    'name' : 'log-api',
+    'repository' : {
+        'type' : 'git',
+        'url' : 'https://github.com/michelwooller/LogAPI.git'
+    },
+    'scripts' : {
+	    'test' : 'mocha test'
+    },
+    'version' : '0.0.3',
+    'devDependencies' : {
+        'unit.js' : '2.0.0',
+        'mocha' : '2.2.4'
+    }
 }

@@ -1,3 +1,4 @@
+/*
 var PrintPattern = require("../PrintPattern.js");
 var Record = require("../Record.js");
 var Level = require("../Level.js");
@@ -101,3 +102,4 @@ assert((e.stack == pattern.parse(record)), "should be write '" + e.stack + "'");
 
 print("PrintPattern is ok");
 print("------------------------------------------------------------------------");
+*/

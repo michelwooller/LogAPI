@@ -1,3 +1,4 @@
+/*
 var level = require("../Level.js");
 var print = console.log;
 var assert = console.assert;
@@ -28,3 +29,4 @@ assert(level.warn < level.error, "warn bigger or equals a error");
 // error should be ther greater level
 print("Level is ok");
 print("------------------------------------------------------------------------");
+*/
