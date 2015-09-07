@@ -21,31 +21,45 @@ var functions = {
 		    FileSystem.mkdirSync(directory, 0777);
 	    }
     },
-    /* append on end of the file extension a date and time of the roation */
-    'rotateFile' : function(filename, rotation_size, rotation_time) {
+    /* append on end of the file extension a date and time of the rotation */
+    'rotateFile' : function(filename) {
 	    var now = new Date();
 	    
 	    var target_filename = filename;
-	    var rotate = function() {
-		    target_filename += '.' + now.getFullYear() + ('0' + now.getMonth()).slice(-2) + ('0' + now.getDate()).slice(-2);
-		    target_filename += '_' + ('0' + now.getHours()).slice(-2) + ('0' + now.getMinutes()).slice(-2) + ('0' + now.getSeconds()).slice(-2);
-		    
-		    FileSystem.renameSync(filename, target_filename);
-		    
-	    };
+	    target_filename += '.' + now.getFullYear() + ('0' + now.getMonth()).slice(-2) + ('0' + now.getDate()).slice(-2);
+	    target_filename += '_' + ('0' + now.getHours()).slice(-2) + ('0' + now.getMinutes()).slice(-2) + ('0' + now.getSeconds()).slice(-2);
+	    
+	    FileSystem.renameSync(filename, target_filename);
+    },
+    'rotateFileBySize' : function(filename, rotation_size) {
+	    var now = new Date();
 	    
 	    if (FileSystem.existsSync(filename)) {
 		    var stats = FileSystem.statSync(filename);
 		    if (stats.size > rotation_size) {
-			    return rotate();
-		    } else if (stats.birthtime != undefined) {
+			    functions.rotateFile(filename);
+			    return true;
+		    }
+	    }
+	    
+	    return false;
+    },
+    'rotateFileByTime' : function(filename, rotation_time) {
+	    var now = new Date();
+	    
+	    if (FileSystem.existsSync(filename)) {
+		    var stats = FileSystem.statSync(filename);
+		    if (stats.birthtime != undefined) {
 			    var btime_milli = stats.birthtime.getTime();
 			    var now_milli = now.getTime();
 			    if ((now_milli - btime_milli) > rotation_time) {
-				    return rotate();
+				    functions.rotateFile(filename);
+				    return true;
 			    }
 		    }
 	    }
+	    
+	    return false;
     },
     /* write the record on file */
     'write' : function(message, filename) {
@@ -129,7 +143,14 @@ module.exports = function(name, print_pattern, config) {
 	this.name = name;
 	this.writeSync = function(record) {
 		functions.createDirectory(_folder);
-		functions.rotateFile(_filename, _rotation_size, _rotation_time);
+		
+		var rotated = false;
+		if (_rotation_enabled)
+			if (_rotation_size != undefined)
+				rotated = functions.rotateFileBySize(_filename, _rotation_size);
+			else if (_rotation_time != undefined && !rotated)
+				functions.rotateFileByTime(_filename, _rotation_time);
+		
 		functions.write(print_pattern.parse(record) + '\n', _filename);
 	};
 	this.write = function(record, callback) {

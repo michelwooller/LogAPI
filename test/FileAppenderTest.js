@@ -22,8 +22,8 @@ describe('Suite de testes do FileAppender.', function() {
 					}
 				});
 				it('então deve conter a interface básica exigida para ser uma Appender.', function() {
-					should(file_appender.name).be.equal('SimpleFileAppender');
 					should(file_appender.write).be.type('function');
+					should(file_appender.name).be.equal('SimpleFileAppender');
 					should(file_appender.writeSync).be.type('function');
 				});
 			});
@@ -130,21 +130,82 @@ describe('Suite de testes do FileAppender.', function() {
 					
 				});
 			});
-			describe('quando logado um record', function() {
+		});
+	});
+	describe('Testes de rotaçao.', function() {
+		describe('Dado uma instância do FileAppender', function() {
+			describe('quando logado um record além do tempo de rotação', function() {
 				var config = {
 				    'file' : {
 				        'path' : 'test/logs',
 				        'name' : 'out.log'
+				    },
+				    'rotation' : {
+					    'time' : 1
 				    }
 				};
-				var file_appender = new FileAppender('SimpleFileAppender', print_pattern, config);
-				file_appender.write(record);
 				
-				it('então a mensagem do record tem que ser adicionado ao arquivo de acordo com a configuração.', function() {
-					var data = FileSystem.readFileSync(config.file.path + '/'+ config.file.name);
-					console.log(data.toString());
+				// exclude log files
+				try {
+					var files = FileSystem.readdirSync(config.file.path);
+					
+					if (files.length > 0)
+						for (var i = 0; i < files.length; i++) {
+							var filePath = config.file.path + '/' + files[i];
+							if (FileSystem.statSync(filePath).isFile())
+								FileSystem.unlinkSync(filePath);
+						}
+				} catch (e) {
+				}
+				
+				var file_appender = new FileAppender('SimpleFileAppender', print_pattern, config);
+				file_appender.writeSync(record);
+				
+				it('então o FileAppender deverá rotacionar o arquivo por tempo.', function(done) {
+					setTimeout(function() {
+						file_appender.writeSync(record);
+						
+						var files = FileSystem.readdirSync(config.file.path);
+						should(files.length).be.equal(2);
+						done();
+					}, 1000);
 				});
 			});
+			describe('quando logado um record além do tamanho máximo para rotação', function() {
+				var config = {
+				    'file' : {
+				        'path' : 'test/logs',
+				        'name' : 'out.log'
+				    },
+				    'rotation' : {
+					    'size' : 2
+				    }
+				};
+				
+				// exclude log files
+				try {
+					var files = FileSystem.readdirSync(config.file.path);
+					
+					if (files.length > 0)
+						for (var i = 0; i < files.length; i++) {
+							var filePath = config.file.path + '/' + files[i];
+							if (FileSystem.statSync(filePath).isFile())
+								FileSystem.unlinkSync(filePath);
+						}
+				} catch (e) {
+				}
+				
+				var file_appender = new FileAppender('SimpleFileAppender', print_pattern, config);
+				file_appender.writeSync(record);
+				
+				it('então o FileAppender deverá rotacionar o arquivo por tempo.', function() {
+					file_appender.writeSync(record);
+					
+					var files = FileSystem.readdirSync(config.file.path);
+					should(files.length).be.equal(2);
+				});
+			});
+			
 		});
 	});
 });
